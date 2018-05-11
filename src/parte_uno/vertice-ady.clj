@@ -1,13 +1,13 @@
 (ns parte-uno.vertice-ady
-  (:require [vertice :as v])
+  (:require [vertice :as v]
+            [arista :as a]
+  )
 )
 
 (defprotocol VerticeAdy 
   (con-arista [_ a])
   (vecinos [_])
 )
-
-HAY QUE SOBREESCRIBIR EQUALS!
 
 (defrecord rVerticeAdy [vertice aristas]
   VerticeAdy

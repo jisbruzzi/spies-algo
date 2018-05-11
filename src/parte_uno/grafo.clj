@@ -1,6 +1,6 @@
 (ns parte-uno.grafo
     (:require
-        [parte-uno.vertice :as v]
+        [parte-uno.vertice-ady :as v]
         [parte-uno.arista :as a]
     )
 )
@@ -21,23 +21,33 @@
 )
 
 (defprotocol Grafo 
-    (agregar [_ aristas])
+    (con-aristas [_ aristas])
 )
-(defrecord rGrafo [adyacencias]
+(defrecord rGrafo [vertices aristas]
     Grafo
-    (agregar [yo aristas]
-        (if (empty? aristas))
+    (con-aristas [yo aristas-n]
+        (if (empty? aristas-n)
             yo
             (let [
-                arista (first aristas)
-                adyacencias-nuevas (agregar-arista-a-adyacencias adyacencias arista)
-                grafo-nuevo (rGrafo. adyacencias-nuevas)
+                arista (first aristas-n)
+                grafo-nuevo (con-arista arista)
 
             ]
                 (agregar grafo-nuevo (rest aristas))
             )
         )
-    
+    )
+    (con-arista [yo arista]
+      (let [
+          vs (a/vertices-adyacentes? arista)
+          gv1 (con-vertice yo  (nth vs 0))
+          gv2 (con-vertice gv1 (nth vs 1))
+        ]
+        gv2
+      )
+    )
+    (con-vertice [yo vertice]
+
     )
 )
 
