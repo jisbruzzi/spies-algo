@@ -5,9 +5,12 @@
     )    
 )
 
-(defprotocol Arista)
+(defprotocol Arista (vertices? [_]))
 
-(defrecord rArista [v1 v2])
+(defrecord rArista [v1 v2]
+    Arista
+    (vertices? [_] (list vi v2))
+)
 
 (defn crear [string] 
   (let [
