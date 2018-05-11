@@ -5,9 +5,18 @@
     )
 )
 
-(defn agregar-arista-a-adyacencias [adyacencias arista]
-    (
-        assoc ...
+(defn agregar-arista-a-adyacencias [ady arista]
+    (let [
+        v (vertices? arista)
+        v1 (nth v 1)
+        a1 (get adyacencias v1)
+        v2 (nth v 2)
+        a2 (get adyacencias v2)
+
+        ady1 (assoc ady v1 (conj a1 v1))
+        ady2 (assoc ady1 v2 (conj a2 v2))
+      ]
+      ady2
     )
 )
 
@@ -17,7 +26,7 @@
 (defrecord rGrafo [adyacencias]
     Grafo
     (agregar [yo aristas]
-        (if (= 0 (count aristas))
+        (if (empty? aristas))
             yo
             (let [
                 arista (first aristas)
