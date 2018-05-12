@@ -2,33 +2,33 @@
     (:require 
         [parte-uno.grafo :as g]
         [parte-uno.problema :as p]
-        [parte-uno.estado-dijkstra :as d]
+        [parte-uno.estado-dijkstra :as e]
     )
 )
 
-(defrecord problema-dijkstra [visitados distancias grafo hasta]
+(defrecord problema-dijkstra [visitados estado grafo hasta]
     p/Problema
     (terminado? [_]
         (every? visitados hasta)
     )
     (conclusion [_]
-        (zipmap hasta (map (fn [x] (d/distancia distancias x)) hasta))
+        (zipmap hasta (map (fn [x] (e/distancia estado x)) hasta))
     )
     (alternativa [_]
         (let [
-            actual (d/siguiente-a-visitar distancias)
+            actual (e/siguiente-a-visitar estado)
             vecinos-no-visitados (filter (complement visitados) (g/vecinos-de grafo actual))
 
             distancias-actual-vecino (map (fn [x] (g/distancia grafo actual x)) vecinos-no-visitados)
-            distancias (d/distancias-a-traves-de distancias actual vecinos-no-visitados distancias-actual-vecino)
-            distancias (d/sin-siguiente-a-visitar distancias)
+            estado (e/distancias-a-traves-de estado actual vecinos-no-visitados distancias-actual-vecino)
+            estado (e/sin-siguiente-a-visitar estado)
 
             visitados-actualizados (conj visitados actual)
         ]
 
             (problema-dijkstra. 
                 visitados-actualizados
-                distancias
+                estado
                 grafo
                 hasta
             )
@@ -39,7 +39,7 @@
 (defn espias-mas-cerca [grafo aeropuerto espias]
     (p/solucion-greedy (problema-dijkstra. 
         #{}
-        (d/crear-distancias aeropuerto)
+        (e/crear-estado aeropuerto)
         grafo
         espias
     ))

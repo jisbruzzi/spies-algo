@@ -84,6 +84,6 @@
     )
 )
 
-(defn crear-distancias [inicio]
+(defn crear-estado [inicio]
     (con-vertice (estado-dijkstra. {} (sorted-map)) inicio 0)
 )
