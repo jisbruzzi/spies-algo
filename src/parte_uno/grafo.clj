@@ -1,53 +1,59 @@
 (ns parte-uno.grafo
     (:require
-        [parte-uno.vertice-ady :as v]
+        [parte-uno.vertice :as v]
         [parte-uno.arista :as a]
+        [clojure.string :as str]
     )
 )
 
-(defn agregar-arista-a-adyacencias [ady arista]
-    (let [
-        v (vertices? arista)
-        v1 (nth v 1)
-        a1 (get adyacencias v1)
-        v2 (nth v 2)
-        a2 (get adyacencias v2)
 
-        ady1 (assoc ady v1 (conj a1 v1))
-        ady2 (assoc ady1 v2 (conj a2 v2))
-      ]
-      ady2
-    )
+(defprotocol Grafo
+    (vecinos-de [_ v])
 )
-
-(defprotocol Grafo 
+(defprotocol GrafoCreable
     (con-aristas [_ aristas])
+    (con-arista [_ arista])
 )
-(defrecord rGrafo [vertices aristas]
-    Grafo
-    (con-aristas [yo aristas-n]
-        (if (empty? aristas-n)
+(defrecord rGrafo [adyacencias]
+    GrafoCreable
+    (con-aristas [yo aristas]
+        (if (empty? aristas)
             yo
             (let [
-                arista (first aristas-n)
-                grafo-nuevo (con-arista arista)
+                arista (first aristas)
+                grafo-nuevo (con-arista yo arista)
 
             ]
-                (agregar grafo-nuevo (rest aristas))
+                (con-aristas grafo-nuevo (rest aristas))
             )
         )
     )
+
     (con-arista [yo arista]
       (let [
-          vs (a/vertices-adyacentes? arista)
-          gv1 (con-vertice yo  (nth vs 0))
-          gv2 (con-vertice gv1 (nth vs 1))
+          con-arista-v (fn [u v ady]
+            (let [
+                vecinos-u (get adyacencias u)
+                conj-seguro (fnil conj (list))
+                nuevos-vecinos-u (conj-seguro  vecinos-u v)
+                nueva-ady (assoc ady u nuevos-vecinos-u)
+            ]
+                nueva-ady
+            )
+          )
+          vs (a/vertices arista)
+          v0 (nth vs 0)
+          v1 (nth vs 1)
+          ady0 (con-arista-v v0 v1 adyacencias)
+          ady1 (con-arista-v v1 v0 ady0)
         ]
-        gv2
+        (rGrafo. ady1)
       )
     )
-    (con-vertice [yo vertice]
 
+    Grafo
+    (vecinos-de [_ v]
+        (get adyacencias v)
     )
 )
 
@@ -55,8 +61,8 @@
     (let [
         aristas (map a/crear (str/split-lines str) )
         grafo-vacio (rGrafo. {})
-        grafo-definitivo (agregar grafo-vacio aristas)
-    ])
-    
-    grafo-definitivo
+        grafo-definitivo (con-aristas grafo-vacio aristas)
+    ]
+        grafo-definitivo
+    )
 )
