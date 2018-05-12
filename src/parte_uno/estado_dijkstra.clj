@@ -7,11 +7,15 @@
     (sin-siguiente-a-visitar [_])
     (con-vertice [yo v d])
     (sin-vertice [yo v])
+    (distancia [yo v])
 )
 
 
 (defrecord estado-dijkstra [distancias visitables]
     Distancias
+    (distancia [yo v]
+        (get distancias v)
+    )
     (distancias-a-traves-de [yo actual vecinos distancias-vecinos]
         (if (empty? vecinos)
             yo

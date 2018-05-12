@@ -12,7 +12,7 @@
         (every? visitados hasta)
     )
     (conclusion [_]
-        distancias;(zipmap hasta (map distancias hasta))
+        (zipmap hasta (map (fn [x] (d/distancia distancias x)) hasta))
     )
     (alternativa [_]
         (let [
@@ -24,11 +24,6 @@
             distancias (d/sin-siguiente-a-visitar distancias)
 
             visitados-actualizados (conj visitados actual)
-
-            a (println "-------------------")
-            x (println visitados)
-            x (println distancias)
-            z (println actual)
         ]
 
             (problema-dijkstra. 
