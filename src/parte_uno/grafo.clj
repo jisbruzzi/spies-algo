@@ -3,12 +3,14 @@
         [parte-uno.vertice :as v]
         [parte-uno.arista :as a]
         [clojure.string :as str]
+        [clojure.math.numeric-tower :as math]
     )
 )
 
 
 (defprotocol Grafo
     (vecinos-de [_ v])
+    (distancia [_ u v])
 )
 (defprotocol GrafoCreable
     (con-aristas [_ aristas])
@@ -54,6 +56,14 @@
     Grafo
     (vecinos-de [_ v]
         (get adyacencias v)
+    )
+    (distancia [_ u v]
+        (let [
+            dx (- (v/x? u) (v/x? v))
+            dy (- (v/y? u) (v/y? v))
+        ]
+            (math/sqrt (+ (* dx dx) (* dy dy) ) )
+        )
     )
 )
 

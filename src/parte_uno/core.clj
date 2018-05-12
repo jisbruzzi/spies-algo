@@ -3,7 +3,7 @@
   (:require 
     [clojure.string :as str]
     [parte-uno.grafo :as g]
-    [parte-uno.bfs :as bfs]
+    [parte-uno.dijkstra :as bfs]
     [parte-uno.vertice :as v]
   ))
 
