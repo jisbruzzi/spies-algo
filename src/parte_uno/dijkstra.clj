@@ -9,7 +9,10 @@
 (defrecord problema-dijkstra [visitados estado grafo hasta]
     p/Problema
     (terminado? [_]
-        (every? visitados hasta)
+        (or
+            (every? visitados hasta)
+            (nil? (e/sin-siguiente-a-visitar estado))
+        )
     )
     (conclusion [_]
         (zipmap hasta (map (fn [x] (e/distancia estado x)) hasta))
