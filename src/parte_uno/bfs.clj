@@ -10,7 +10,7 @@
     p/Problema
     (terminado? [_]
         (or 
-            (some (fn [h]
+            (every? (fn [h]
                 (and 
                     (visitados h)
                     (< (distancias h) mayor-distancia)
@@ -21,7 +21,7 @@
         
     )
     (conclusion [_]
-        (filter visitados hasta)
+        distancias
     )
     (alternativa [_]
         (let [

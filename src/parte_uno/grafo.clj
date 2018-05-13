@@ -11,6 +11,7 @@
 (defprotocol Grafo
     (vecinos-de [_ v])
     (distancia [_ u v])
+    (vertices [_])
 )
 (defprotocol GrafoCreable
     (con-aristas [_ aristas])
@@ -64,6 +65,9 @@
         ]
             (math/sqrt (+ (* dx dx) (* dy dy) ) )
         )
+    )
+    (vertices [yo]
+        (keys adyacencias)
     )
 )
 

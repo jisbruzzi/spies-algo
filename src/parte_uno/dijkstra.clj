@@ -15,7 +15,12 @@
         )
     )
     (conclusion [_]
-        (zipmap hasta (map (fn [x] (e/distancia estado x)) hasta))
+        (let [
+            vertices (g/vertices grafo)
+        ]
+            (zipmap vertices (map (fn [x] (e/distancia estado x)) vertices))
+        )
+        
     )
     (alternativa [_]
         (let [
