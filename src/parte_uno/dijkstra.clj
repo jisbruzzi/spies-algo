@@ -42,13 +42,19 @@
             )
         )
     )
+    (distancias? [_]
+        (e/distancias? estado)
+    )
+    (grafo? [_]
+        grafo
+    )
 )
 
-(defn espias-mas-cerca [grafo aeropuerto espias]
-    (p/solucion-greedy (problema-dijkstra. 
+(defn problema-con-pesos [grafo aeropuerto espias]
+    (problema-dijkstra. 
         #{}
         (e/crear-estado aeropuerto)
         grafo
         espias
-    ))
+    )
 )

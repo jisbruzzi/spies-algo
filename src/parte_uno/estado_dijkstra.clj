@@ -8,11 +8,15 @@
     (con-vertice [yo v d])
     (sin-vertice [yo v])
     (distancia [yo v])
+    (distancias? [yo])
 )
 
 
 (defrecord estado-dijkstra [distancias visitables]
     Distancias
+    (distancias? [yo]
+        distancias
+    )
     (distancia [yo v]
         (get distancias v)
     )

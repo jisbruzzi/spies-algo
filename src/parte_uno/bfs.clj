@@ -41,8 +41,14 @@
             (problema-bfs. sig-cola sig-visitados distancias distancia-vecinos grafo hasta)
         )
     )
+    (distancias? [_]
+        distancias
+    )
+    (grafo? [_]
+        grafo
+    )
 )
 
-(defn espias-mas-cerca [grafo aeropuerto espias]
-    (p/solucion-greedy (problema-bfs. (list aeropuerto) #{} {aeropuerto 0} grafo espias))
+(defn problema-sin-pesos [grafo aeropuerto espias]
+    (problema-bfs. (list aeropuerto) #{} {aeropuerto 0} 0 grafo espias)
 )
