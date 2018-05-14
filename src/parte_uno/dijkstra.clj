@@ -25,10 +25,10 @@
     (alternativa [_]
         (let [
             actual (e/siguiente-a-visitar estado)
-            vecinos-no-visitados (filter (complement visitados) (g/vecinos-de grafo actual))
+            vecinos (filter (complement visitados) (g/vecinos-de grafo actual))
 
-            distancias-actual-vecino (map (fn [x] (g/distancia grafo actual x)) vecinos-no-visitados)
-            estado (e/distancias-a-traves-de estado actual vecinos-no-visitados distancias-actual-vecino)
+            distancias-actual-vecino (map (fn [x] (g/distancia grafo actual x)) vecinos)
+            estado (e/distancias-a-traves-de estado actual vecinos distancias-actual-vecino)
             estado (e/sin-siguiente-a-visitar estado)
 
             visitados-actualizados (conj visitados actual)
