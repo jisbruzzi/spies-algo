@@ -14,45 +14,11 @@
     (vertices [_])
 )
 (defprotocol GrafoCreable
-    (con-aristas [_ aristas])
-    (con-arista [_ arista])
+    (adyacencias? [_])
 )
 (defrecord rGrafo [adyacencias]
     GrafoCreable
-    (con-aristas [yo aristas]
-        (if (empty? aristas)
-            yo
-            (let [
-                arista (first aristas)
-                grafo-nuevo (con-arista yo arista)
-
-            ]
-                (con-aristas grafo-nuevo (rest aristas))
-            )
-        )
-    )
-
-    (con-arista [yo arista]
-      (let [
-          con-arista-v (fn [u v ady]
-            (let [
-                vecinos-u (get adyacencias u)
-                conj-seguro (fnil conj (list))
-                nuevos-vecinos-u (conj-seguro  vecinos-u v)
-                nueva-ady (assoc ady u nuevos-vecinos-u)
-            ]
-                nueva-ady
-            )
-          )
-          vs (a/vertices arista)
-          v0 (nth vs 0)
-          v1 (nth vs 1)
-          ady0 (con-arista-v v0 v1 adyacencias)
-          ady1 (con-arista-v v1 v0 ady0)
-        ]
-        (rGrafo. ady1)
-      )
-    )
+    (adyacencias? [_] adyacencias)
 
     Grafo
     (vecinos-de [_ v]
@@ -60,8 +26,8 @@
     )
     (distancia [_ u v]
         (let [
-            dx (- (v/x? u) (v/x? v))
-            dy (- (v/y? u) (v/y? v))
+            dx (- (:x u) (:x v))
+            dy (- (:y u) (:y v))
         ]
             (math/sqrt (+ (* dx dx) (* dy dy) ) )
         )
@@ -71,11 +37,35 @@
     )
 )
 
+
+
+(defn crear-grafo-desde-arista [a]
+    (let [
+        u (nth a 0)
+        v (nth a 1)
+    ]
+        (rGrafo. {v (list u), u (list v)})
+    )
+    
+)
+
+(defn combinar-grafos [g h]
+    (let [
+        adyg (adyacencias? g)
+        adyh (adyacencias? h)
+        todos (merge-with concat adyg adyh)
+        ady (rGrafo. todos)
+    ]
+        ady
+    )
+)
+
+
 (defn crear [str]
     (let [
         aristas (map a/crear (str/split-lines str) )
-        grafo-vacio (rGrafo. {})
-        grafo-definitivo (con-aristas grafo-vacio aristas)
+        grafitos (map crear-grafo-desde-arista aristas)
+        grafo-definitivo (reduce combinar-grafos grafitos)
     ]
         grafo-definitivo
     )

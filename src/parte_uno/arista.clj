@@ -5,13 +5,6 @@
     )    
 )
 
-(defprotocol Arista (vertices [_]))
-
-(defrecord rArista [v1 v2]
-    Arista
-    (vertices [_] (list v1 v2))
-)
-
 (defn crear [string] 
   (let [
     separado (str/split string #" ")
@@ -19,7 +12,7 @@
     nros (map (fn [s] (Integer. s)) filtrado)
   ]
     (if (= 4 (count nros))
-        (rArista. 
+        (list
             (v/crear (nth nros 0) (nth nros 1))
             (v/crear (nth nros 2) (nth nros 3))
         )
