@@ -8,5 +8,9 @@
     [org.clojure/math.numeric-tower "0.0.4"]
   ]
   :main ^:skip-aot parte-uno.core
+  :aliases {
+    "bfs" ["run" "-m" "parte-uno.core/bfs"]
+    "dijkstra" ["run" "-m" "parte-uno.core/dijkstra"]
+  }
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

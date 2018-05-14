@@ -29,19 +29,11 @@
     )
 )
 
-(defn prrr [x]
-    (let [
-        y (println x)
-    ]
-        x
-    )
-)
-
 (defn camino-desde [distancias grafo desde]
     
         (if (= 0 (distancias desde))
             (list desde)
-            (concat (list desde) (camino-desde 
+            (conj (camino-desde 
                 distancias
                 grafo 
                 (:v (reduce 
@@ -58,10 +50,10 @@
                         (fn d-v [v]
                             {:d (or (distancias v) (/ 1.0 0.0)), :v v}
                         )
-                        (prrr (g/vecinos-de grafo desde))
+                         (g/vecinos-de grafo desde)
                     )
                 ))
-            ))
+            ) desde )
         )
     
     
