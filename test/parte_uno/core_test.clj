@@ -231,3 +231,69 @@
   )
 
 )
+
+
+
+
+(deftest ciclo
+  (def grafo (g/crear "0 0 - 0 1 \n 0 1 - 0 2 \n 0 2 - 0 3 \n 0 3 - 0 4 \n 0 0 - 5 2 \n 0 4 - 5 2"))
+  (def analisis-sin-pesos (p/analisis-greedy (bfs/problema-sin-pesos
+        grafo
+        (v/crear 0 0) 
+        [(v/crear 0 3) (v/crear 0 4)]
+      )))
+  (def analisis-con-pesos (p/analisis-greedy (djk/problema-con-pesos
+        grafo
+        (v/crear 0 0) 
+        [(v/crear 0 3) (v/crear 0 4)]
+      )))
+  (testing "analisis correcto en problema con pesos"
+    (is (= (analisis-con-pesos (v/crear 0 0)) 0))
+    (is (= (analisis-con-pesos (v/crear 0 1)) 1))
+    (is (= (analisis-con-pesos (v/crear 0 2)) 2))
+    (is (= (analisis-con-pesos (v/crear 0 3)) 3))
+    (is (= (analisis-con-pesos (v/crear 0 4)) 4))
+    (is (= (analisis-con-pesos (v/crear 5 2)) (math/sqrt (+ (* 5 5) (* 2 2) ) )))
+  )
+  (testing "analisis correcto en problema sin pesos"
+    (is (= (analisis-sin-pesos (v/crear 0 0)) 0))
+    (is (= (analisis-sin-pesos (v/crear 0 1)) 1))
+    (is (= (analisis-sin-pesos (v/crear 0 2)) 2))
+    (is (= (analisis-sin-pesos (v/crear 0 3)) 3))
+    (is (= (analisis-sin-pesos (v/crear 0 4)) 2))
+    (is (= (analisis-sin-pesos (v/crear 5 2)) 1))
+  )
+
+  (testing "determinacion correcta en problema con pesos"
+    (is (= 
+      (p/camino-desde
+        analisis-con-pesos
+        grafo
+        (v/crear 0 4)
+      )
+      (list
+        (v/crear 0 4)
+        (v/crear 0 3)
+        (v/crear 0 2)
+        (v/crear 0 1)
+        (v/crear 0 0)
+      )
+    ))
+  )
+
+  
+  (testing "determinacion correcta en problema sin pesos"
+    (is (= 
+      (p/camino-desde
+        analisis-sin-pesos
+        grafo
+        (v/crear 0 4)
+      )
+      (list
+        (v/crear 0 4)
+        (v/crear 5 2)
+        (v/crear 0 0)
+      )
+    ))
+  )
+)
