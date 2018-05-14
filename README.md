@@ -3,8 +3,8 @@
 Parte 1 del tp de 7529 tda. Equipo Q.
 
 ## Instalación
-Windows: todo preparado.
-Linux: instalar lein.
+
+[Instalar leiningen](https://leiningen.org/#install) para poder ejecutar `lein`.
 
 Luego clonar el repositorio.
 
