@@ -25,7 +25,7 @@
         distancia-espia-con-documentos (or (distancias espia-con-documentos) (/ 1.0 0.0))
         distancia-espia-sin-documentos (or (distancias espia-sin-documentos) (/ 1.0 0.0))
     ]
-        (< distancia-espia-sin-documentos distancia-espia-con-documentos)
+        (not (< distancia-espia-sin-documentos distancia-espia-con-documentos))
     )
 )
 
