@@ -28,15 +28,15 @@
             actual (first cola)
             desacolada (rest cola)
             vecinos (g/vecinos-de grafo actual)
-            vecinos-no-visitados (filter (complement visitados) vecinos)
-            vecinos-no-acolados (filter (complement (set cola)) vecinos-no-visitados)
+            vecinos (filter (complement visitados) vecinos)
+            vecinos (filter (complement (set cola)) vecinos)
 
-            sig-cola (concat desacolada vecinos-no-acolados)
+            sig-cola (concat desacolada vecinos)
             sig-visitados (conj visitados actual)
 
             distancia-vecinos  (+ (get distancias actual) 1)
-            distancias-vecinos (map (fn [x] distancia-vecinos) vecinos-no-acolados)
-            distancias (into distancias (zipmap vecinos-no-acolados distancias-vecinos))
+            distancias-vecinos (map (fn [x] distancia-vecinos) vecinos)
+            distancias (into distancias (zipmap vecinos distancias-vecinos))
         ]
             (problema-bfs. sig-cola sig-visitados distancias distancia-vecinos grafo hasta)
         )

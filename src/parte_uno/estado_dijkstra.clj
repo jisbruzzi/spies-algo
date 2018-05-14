@@ -58,21 +58,15 @@
                 distancia-v (get distancias v)
                 vs-a-distancia-d (get visitables distancia-v)
                 nuevos-vs-a-distancia-d (rest vs-a-distancia-d)
-            ]
-
-                (if (empty? nuevos-vs-a-distancia-d)
-
-                    (estado-dijkstra.
-                        distancias
-                        (dissoc visitables distancia-v)
-                    )
-
-                    (estado-dijkstra.
-                        distancias
-                        (assoc visitables distancia-v nuevos-vs-a-distancia-d)
-                    )
+                visitables (if (empty? nuevos-vs-a-distancia-d)
+                    (dissoc visitables distancia-v)
+                    ( assoc visitables distancia-v nuevos-vs-a-distancia-d)
                 )
-                
+            ]
+                (estado-dijkstra.
+                    distancias
+                    visitables
+                )    
             )
             yo
         )
